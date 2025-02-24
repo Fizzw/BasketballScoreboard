@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct ContentView: View {
     let timerStore: StoreOf<TimerFeature>
-    let countStore: StoreOf<CounterFeature>
+    let counterStore: StoreOf<CounterFeature>
     let scenePhaseStore: StoreOf<ScenePhaseFeature>
     let colorPickerStore: StoreOf<ColorPickerFeature>
     
@@ -66,7 +66,7 @@ struct ContentView: View {
                        }
                        .padding(.horizontal, 20)
                         
-                        NavigationLink(destination: MenuView(scenePhaseStore: scenePhaseStore, counterStore: countStore, colorPickerStore: colorPickerStore, timerStore: timerStore)) {
+                        NavigationLink(destination: MenuView(scenePhaseStore: scenePhaseStore, counterStore: counterStore, colorPickerStore: colorPickerStore, timerStore: timerStore)) {
                             Image(systemName: "arrow.right")
                                 .resizable()
                                 .foregroundStyle(.white)
@@ -74,22 +74,22 @@ struct ContentView: View {
                         }
                     }
                     Spacer()
-                    OverlayTopView(timerstore: timerStore, counterStore: countStore)
+                    OverlayTopView(timerstore: timerStore, counterStore: counterStore)
                     Spacer()
                     ZStack {
-                        OverlayBottomView(countStore: countStore,timerStore: timerStore, colorPickerStore: colorPickerStore)
+                        OverlayBottomView(counterStore: counterStore,timerStore: timerStore, colorPickerStore: colorPickerStore)
                             .padding(.bottom, 20)
                     }
                     Spacer()
                 }
-                OverlayCounterView(counterStore: countStore, colorPickerStore: colorPickerStore, timerStore: timerStore)
+                OverlayCounterView(counterStore: counterStore, colorPickerStore: colorPickerStore, timerStore: timerStore)
 
             }
             .persistentSystemOverlays(.hidden)
             .onAppear {
                 colorPickerStore.send(.loadSavedColor)
                 timerStore.send(.loadSavedTime)
-                countStore.send(.loadSavedQuater)
+                counterStore.send(.loadSavedQuater)
             }
         }
         .navigationBarTitle("", displayMode: .inline)

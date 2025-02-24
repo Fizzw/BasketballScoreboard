@@ -9,21 +9,21 @@ import ComposableArchitecture
 import SwiftUI
 
 struct OverlayBottomView: View {
-    let countStore: StoreOf<CounterFeature>
+    let counterStore: StoreOf<CounterFeature>
     let timerStore: StoreOf<TimerFeature>
     let colorPickerStore: StoreOf<ColorPickerFeature>
     var body: some View {
         HStack {
             Spacer()
             VStack {
-                if countStore.quater == 3 || countStore.quater == 4 {
+                if counterStore.quater == 3 || counterStore.quater == 4 {
                     Text("Away")
                            .padding(2)
                            .background(RoundedRectangle(cornerRadius: 5).fill(colorPickerStore.awayTeamSelectedColor.opacity(0.5)))
                                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray, lineWidth: 1))
                                        
                        
-                       Text(String(format: "%02d", countStore.awayPoint))
+                       Text(String(format: "%02d", counterStore.awayPoint))
                            .font(.custom("Seven Segment", size: 100))
                            .foregroundStyle(colorPickerStore.awayTeamSelectedColor)
                            .frame(width: 150)
@@ -33,7 +33,7 @@ struct OverlayBottomView: View {
                         .background(RoundedRectangle(cornerRadius: 5).fill(colorPickerStore.homeTeamSelectedColor.opacity(0.5)))
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray, lineWidth: 1))
                     
-                    Text(String(format: "%02d", countStore.homePoint))
+                    Text(String(format: "%02d", counterStore.homePoint))
                         .font(.custom("Seven Segment", size: 100))
                         .foregroundStyle(colorPickerStore.homeTeamSelectedColor)
                         .frame(width: 150)
@@ -48,13 +48,13 @@ struct OverlayBottomView: View {
             }
             Spacer()
             VStack {
-                if countStore.quater == 3 || countStore.quater == 4 {
+                if counterStore.quater == 3 || counterStore.quater == 4 {
                     Text("Home")
                            .padding(2)
                            .background(RoundedRectangle(cornerRadius: 5).fill(colorPickerStore.homeTeamSelectedColor.opacity(0.5)))
                                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray, lineWidth: 1))
                        
-                       Text(String(format: "%02d", countStore.homePoint))
+                       Text(String(format: "%02d", counterStore.homePoint))
                            .font(.custom("Seven Segment", size: 100))
                            .foregroundStyle(colorPickerStore.homeTeamSelectedColor)
                            .frame(width: 150)
@@ -65,7 +65,7 @@ struct OverlayBottomView: View {
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray, lineWidth: 1))
                     
                     
-                    Text(String(format: "%02d", countStore.awayPoint))
+                    Text(String(format: "%02d", counterStore.awayPoint))
                         .font(.custom("Seven Segment", size: 100))
                         .foregroundStyle(colorPickerStore.awayTeamSelectedColor)
                         .frame(width: 150)

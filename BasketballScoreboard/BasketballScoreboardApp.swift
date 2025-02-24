@@ -6,12 +6,20 @@
 //
 
 import SwiftUI
-
+import ComposableArchitecture
 @main
 struct BasketballScoreboardApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(timerStore: Store(initialState: TimerFeature.State(), reducer: {
+                TimerFeature()
+            }), counterStore: Store(initialState: CounterFeature.State(), reducer: {
+                CounterFeature()
+            }), scenePhaseStore: Store(initialState: ScenePhaseFeature.State(), reducer: {
+                ScenePhaseFeature()
+            }), colorPickerStore: Store(initialState: ColorPickerFeature.State(), reducer: {
+                ColorPickerFeature()
+            }))
         }
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92C288A52D757E7D00A7BF28 /* OverlayScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C288A42D757E7D00A7BF28 /* OverlayScoreView.swift */; };
 		92D350442D6B077500CB4AFD /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 92D350432D6B077500CB4AFD /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
@@ -28,14 +29,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		92C288A42D757E7D00A7BF28 /* OverlayScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayScoreView.swift; sourceTree = "<group>"; };
 		92D350152D6B039300CB4AFD /* BasketballScoreboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BasketballScoreboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92D350252D6B039400CB4AFD /* BasketballScoreboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BasketballScoreboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		92D3502F2D6B039400CB4AFD /* BasketballScoreboardUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BasketballScoreboardUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		92799B4C2D6C0913001EA4B7 /* Exceptions for "BasketballScoreboard" folder in "BasketballScoreboard" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 92D350142D6B039300CB4AFD /* BasketballScoreboard */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		92D350172D6B039300CB4AFD /* BasketballScoreboard */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				92799B4C2D6C0913001EA4B7 /* Exceptions for "BasketballScoreboard" folder in "BasketballScoreboard" target */,
+			);
 			path = BasketballScoreboard;
 			sourceTree = "<group>";
 		};
@@ -80,6 +95,7 @@
 		92D3500C2D6B039300CB4AFD = {
 			isa = PBXGroup;
 			children = (
+				92C288A42D757E7D00A7BF28 /* OverlayScoreView.swift */,
 				92D350172D6B039300CB4AFD /* BasketballScoreboard */,
 				92D350282D6B039400CB4AFD /* BasketballScoreboardTests */,
 				92D350322D6B039400CB4AFD /* BasketballScoreboardUITests */,
@@ -245,6 +261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92C288A52D757E7D00A7BF28 /* OverlayScoreView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,6 +425,7 @@
 				DEVELOPMENT_TEAM = 5KP73P2PWA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BasketballScoreboard/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -437,6 +455,7 @@
 				DEVELOPMENT_TEAM = 5KP73P2PWA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BasketballScoreboard/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

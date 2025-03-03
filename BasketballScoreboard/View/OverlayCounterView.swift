@@ -5,8 +5,9 @@
 //  Created by 박정우 on 2/21/210.
 //
 
-import SwiftUI
 import ComposableArchitecture
+
+import SwiftUI
 
 struct OverlayCounterView: View {
     let counterStore: StoreOf<CounterFeature>
@@ -21,7 +22,6 @@ struct OverlayCounterView: View {
                 if counterStore.quater == 1 || counterStore.quater == 2 {
                     Button(action: {
                         counterStore.send(.detuctHomePoint)
-                    
                     }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -34,6 +34,8 @@ struct OverlayCounterView: View {
                     
                     Button(action: {
                         counterStore.send(.getOnePointsHomeTeam)
+                        timerStore.send(.stopBothTimers)
+                        timerStore.send(.startShotClock(24))
                     }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -46,6 +48,8 @@ struct OverlayCounterView: View {
                     
                     Button(action: {
                         counterStore.send(.getThreePointsHomeTeam)
+                        timerStore.send(.stopBothTimers)
+                        timerStore.send(.startShotClock(24))
                     }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -58,6 +62,8 @@ struct OverlayCounterView: View {
                     
                     Button(action: {
                         counterStore.send(.getTwoPointsHomeTeam)
+                        timerStore.send(.stopBothTimers)
+                        timerStore.send(.startShotClock(24))
                     }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -82,6 +88,7 @@ struct OverlayCounterView: View {
                     
                     Button(action: {
                         counterStore.send(.getOnePointsAwayTeam)
+                        timerStore.send(.stopBothTimers)
                     }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -94,6 +101,8 @@ struct OverlayCounterView: View {
                     
                     Button(action: {
                         counterStore.send(.getThreePointsAwayTeam)
+                        timerStore.send(.stopBothTimers)
+                        timerStore.send(.startShotClock(24))
                     }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -106,6 +115,8 @@ struct OverlayCounterView: View {
                     
                     Button(action: {
                         counterStore.send(.getTwoPointsAwayTeam)
+                        timerStore.send(.stopBothTimers)
+                        timerStore.send(.startShotClock(24))
                     }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -142,6 +153,8 @@ struct OverlayCounterView: View {
                 if counterStore.quater == 1 || counterStore.quater == 2 {
                     Button(action: {
                         counterStore.send(.getTwoPointsAwayTeam)
+                        timerStore.send(.stopBothTimers)
+                        timerStore.send(.startShotClock(24))
                     }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -155,6 +168,8 @@ struct OverlayCounterView: View {
                     
                     Button(action: {
                         counterStore.send(.getThreePointsAwayTeam)
+                        timerStore.send(.stopBothTimers)
+                        timerStore.send(.startShotClock(24))
                     }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -167,6 +182,8 @@ struct OverlayCounterView: View {
                     
                     Button(action: {
                         counterStore.send(.getOnePointsAwayTeam)
+                        timerStore.send(.stopBothTimers)
+                        timerStore.send(.startShotClock(24))
                     }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -191,6 +208,8 @@ struct OverlayCounterView: View {
                 } else {
                         Button(action: {
                             counterStore.send(.getTwoPointsHomeTeam)
+                            timerStore.send(.stopBothTimers)
+                            timerStore.send(.startShotClock(24))
                         }) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
@@ -204,6 +223,8 @@ struct OverlayCounterView: View {
                         
                         Button(action: {
                             counterStore.send(.getThreePointsHomeTeam)
+                            timerStore.send(.stopBothTimers)
+                            timerStore.send(.startShotClock(24))
                         }) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
@@ -216,6 +237,8 @@ struct OverlayCounterView: View {
                         
                         Button(action: {
                             counterStore.send(.getOnePointsHomeTeam)
+                            timerStore.send(.stopBothTimers)
+                            timerStore.send(.startShotClock(24))
                         }) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)

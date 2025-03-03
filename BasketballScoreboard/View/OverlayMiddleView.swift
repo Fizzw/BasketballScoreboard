@@ -5,16 +5,17 @@
 //  Created by 박정우 on 2/21/25.
 //
 
-import ComposableArchitecture
 import SwiftUI
 
+import ComposableArchitecture
+
 struct OverlayMiddleView: View {
-    let timerstore: StoreOf<TimerFeature>
+    let timerStore: StoreOf<TimerFeature>
     let counterStore: StoreOf<CounterFeature>
     @State var asd: Int = 3
     var body: some View {
         VStack {
-            WithViewStore(timerstore, observe: { $0 }) { viewStore in
+            WithViewStore(timerStore, observe: { $0 }) { viewStore in
                 Text("\(counterStore.quater)쿼터")
                     .onTapGesture {
                         counterStore.send(.nextQuater)
@@ -24,13 +25,17 @@ struct OverlayMiddleView: View {
                         if newValue == 0 {
                             counterStore.send(.nextQuater)
                             viewStore.send(.stopBothTimers)
-//                            timerstore.send(.startBothTimers)
                         }
+                    }
+                    .onLongPressGesture {
+                        hapticImpact()
+                        timerStore.send(.startBothTimers(true))
+                        timerStore.send(.stopBothTimers)
                     }
             }
            
             HStack {
-                Text(timeString(from: timerstore.remainingTime))
+                Text(timeString(from: timerStore.remainingTime))
                     .font(.custom("Seven Segment", size: 100))
                     .foregroundStyle(.green)
             }
@@ -44,4 +49,10 @@ struct OverlayMiddleView: View {
         return String(format: "%02d:%02d", minutes, seconds)
     }
     
+    private func hapticImpact() {
+        let style = UIImpactFeedbackGenerator.FeedbackStyle.heavy
+        let generator = UIImpactFeedbackGenerator(style: style)
+        generator.prepare()
+        generator.impactOccurred()
+    }
 }

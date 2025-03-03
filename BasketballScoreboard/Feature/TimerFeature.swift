@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+
 import ComposableArchitecture
 
 @Reducer
@@ -48,7 +49,7 @@ struct TimerFeature {
         case stopTimer
         case playBuzzer
         
-        case startBothTimers
+        case startBothTimers(Bool)
         case stopBothTimers
         case restartBothTimers
         
@@ -70,16 +71,26 @@ struct TimerFeature {
         Reduce { state, action in
             switch action {
                 
-            case .startBothTimers:
-                state.remainingTime = state.selectedMinutesPerQuater * 60
-                state.shotClockTime = 24
-                state.isRunning = true
-                state.isShotClockTimerRunning = true
-
-                return .merge(
-                    startCountdown(),
-                    startShotClockCountdown()
-                )
+            case let .startBothTimers(restart):
+                
+                if restart {
+                    state.remainingTime = state.selectedMinutesPerQuater * 60
+                    state.shotClockTime = 24
+                    state.isRunning = false
+                    state.isShotClockTimerRunning = false
+                    
+                    return .none
+                } else {
+                    state.remainingTime = state.selectedMinutesPerQuater * 60
+                    state.shotClockTime = 24
+                    state.isRunning = true
+                    state.isShotClockTimerRunning = true
+                    
+                    return .merge(
+                        startCountdown(),
+                        startShotClockCountdown()
+                    )
+                }
                 
             case .startBreakTimer:
                 state.remainingTime = state.selectedMinutesPerRelax * 60

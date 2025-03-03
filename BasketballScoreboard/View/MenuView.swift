@@ -5,8 +5,9 @@
 //  Created by 박정우 on 2/21/25.
 //
 
-import ComposableArchitecture
 import SwiftUI
+
+import ComposableArchitecture
 
 struct MenuView: View {
     let scenePhaseStore: StoreOf<ScenePhaseFeature>

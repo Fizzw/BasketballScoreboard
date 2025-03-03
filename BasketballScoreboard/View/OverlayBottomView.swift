@@ -5,8 +5,9 @@
 //  Created by 박정우 on 2/21/25.
 //
 
-import ComposableArchitecture
 import SwiftUI
+
+import ComposableArchitecture
 
 struct OverlayBottomView: View {
     let counterStore: StoreOf<CounterFeature>
@@ -15,31 +16,7 @@ struct OverlayBottomView: View {
     var body: some View {
         HStack {
             Spacer()
-            VStack {
-                if counterStore.quater == 3 || counterStore.quater == 4 {
-                    Text("Away")
-                           .padding(2)
-                           .background(RoundedRectangle(cornerRadius: 5).fill(colorPickerStore.awayTeamSelectedColor.opacity(0.5)))
-                                       .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray, lineWidth: 1))
-                                       
-                       
-                       Text(String(format: "%02d", counterStore.awayPoint))
-                           .font(.custom("Seven Segment", size: 100))
-                           .foregroundStyle(colorPickerStore.awayTeamSelectedColor)
-                           .frame(width: 150)
-                } else {
-                    Text("Home")
-                        .padding(2)
-                        .background(RoundedRectangle(cornerRadius: 5).fill(colorPickerStore.homeTeamSelectedColor.opacity(0.5)))
-                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray, lineWidth: 1))
-                    
-                    Text(String(format: "%02d", counterStore.homePoint))
-                        .font(.custom("Seven Segment", size: 100))
-                        .foregroundStyle(colorPickerStore.homeTeamSelectedColor)
-                        .frame(width: 150)
-                }
-            }
-            Spacer()
+            
             VStack {
                 Text(String(format: "%02d", timerStore.shotClockTime))
                  .font(.custom("Seven Segment", size: 100))
@@ -47,32 +24,8 @@ struct OverlayBottomView: View {
                  .foregroundStyle(.red)
             }
             Spacer()
-            VStack {
-                if counterStore.quater == 3 || counterStore.quater == 4 {
-                    Text("Home")
-                           .padding(2)
-                           .background(RoundedRectangle(cornerRadius: 5).fill(colorPickerStore.homeTeamSelectedColor.opacity(0.5)))
-                                       .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray, lineWidth: 1))
-                       
-                       Text(String(format: "%02d", counterStore.homePoint))
-                           .font(.custom("Seven Segment", size: 100))
-                           .foregroundStyle(colorPickerStore.homeTeamSelectedColor)
-                           .frame(width: 150)
-                } else {
-                    Text("Away")
-                        .padding(2)
-                        .background(RoundedRectangle(cornerRadius: 5).fill(colorPickerStore.awayTeamSelectedColor.opacity(0.5)))
-                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray, lineWidth: 1))
-                    
-                    
-                    Text(String(format: "%02d", counterStore.awayPoint))
-                        .font(.custom("Seven Segment", size: 100))
-                        .foregroundStyle(colorPickerStore.awayTeamSelectedColor)
-                        .frame(width: 150)
-                }
-                   
-            }
-            Spacer()
+            
+           
         }
     }
      

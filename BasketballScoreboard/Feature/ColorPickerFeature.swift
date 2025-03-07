@@ -18,6 +18,7 @@ struct ColorPickerFeature {
         var homeTeamSelectedColor: Color = .red
         var awayTeamSelectedColor: Color = .red
     }
+    
     //MARK: - Action
     enum Action {
         case homeSelectColor(Color)

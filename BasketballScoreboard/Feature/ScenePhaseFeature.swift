@@ -10,7 +10,6 @@ import ComposableArchitecture
 @Reducer
 struct ScenePhaseFeature {
     
-    
     @ObservableState
     //MARK: - State
     struct State: Equatable {

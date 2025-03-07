@@ -10,21 +10,27 @@ import SwiftUI
 import ComposableArchitecture
 
 struct OverlayMiddleView: View {
+    
+    //MARK: - Store
     let timerStore: StoreOf<TimerFeature>
     let counterStore: StoreOf<CounterFeature>
-    @State var asd: Int = 3
+
     var body: some View {
         VStack {
             WithViewStore(timerStore, observe: { $0 }) { viewStore in
                 Text("\(counterStore.quater)쿼터")
                     .onTapGesture {
                         counterStore.send(.nextQuater)
+                        timerStore.send(.stopBothTimers)
                     }
                     .onChange(of: viewStore.remainingTime) { oldValue, newValue in
                         print("newValue \(viewStore.remainingTime)")
                         if newValue == 0 {
+                            timerStore.send(.playBuzzer)
+                            timerStore.send(.startBreakTimer)
                             counterStore.send(.nextQuater)
                             viewStore.send(.stopBothTimers)
+    
                         }
                     }
                     .onLongPressGesture {
@@ -40,19 +46,5 @@ struct OverlayMiddleView: View {
                     .foregroundStyle(.green)
             }
         }
-    }
-    
-    // 초를 "MM:SS" 형식으로 변환
-    private func timeString(from seconds: Int) -> String {
-        let minutes = seconds / 60
-        let seconds = seconds % 60
-        return String(format: "%02d:%02d", minutes, seconds)
-    }
-    
-    private func hapticImpact() {
-        let style = UIImpactFeedbackGenerator.FeedbackStyle.heavy
-        let generator = UIImpactFeedbackGenerator(style: style)
-        generator.prepare()
-        generator.impactOccurred()
     }
 }

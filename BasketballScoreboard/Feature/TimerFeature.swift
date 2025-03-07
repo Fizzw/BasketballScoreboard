@@ -11,6 +11,7 @@ import ComposableArchitecture
 
 @Reducer
 struct TimerFeature {
+    
     @ObservableState
     // MARK: - State
     struct State: Equatable {
@@ -24,6 +25,7 @@ struct TimerFeature {
         var isQuaterTimeRunning: Bool = false
         var buzzerSound: BuzzerSound = .init()
         var shotClockTime: Int = 0
+        var breakTime: Int = 0
         var currentTime: String = ""
         
         var selectedMinutesPerQuater: Int = 8
@@ -33,8 +35,6 @@ struct TimerFeature {
         var isShotClockTimerRunning: Bool = false
         var isbreakTime: Bool = false
     }
-    
-    @Dependency(\.userDefaultsClient) var userDefaultsClient
 
     // MARK: - Action
     enum Action: Equatable {
@@ -61,12 +61,19 @@ struct TimerFeature {
         case loadSavedTime
         
         case stopQuaterTimeRunning
+        
+        case forceStopBreakTimer
     }
     
+    //MARK: - Timer ID
     struct TimerID: Hashable {}
     struct ShotClockID: Hashable {}
     struct BreakTimerID: Hashable {}
     
+    //MARK: - Dependency
+    @Dependency(\.userDefaultsClient) var userDefaultsClient
+    
+    //MARK: - Reduce
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -80,6 +87,7 @@ struct TimerFeature {
                     state.isShotClockTimerRunning = false
                     
                     return .none
+                    
                 } else {
                     state.remainingTime = state.selectedMinutesPerQuater * 60
                     state.shotClockTime = 24
@@ -93,15 +101,20 @@ struct TimerFeature {
                 }
                 
             case .startBreakTimer:
-                state.remainingTime = state.selectedMinutesPerRelax * 60
+                state.breakTime = state.selectedMinutesPerRelax * 60
+                state.shotClockTime = 24
+                state.isRunning = false
+                state.isShotClockTimerRunning = false
                 state.isbreakTime = true
                 
                 return .merge(
                     startBreakTimeCountDown()
                 )
+                
             case .stopBothTimers:
                 state.isRunning = false
                 state.isShotClockTimerRunning = false
+                
                 return .merge(
                     .cancel(id: TimerID()),
                     .cancel(id: ShotClockID())
@@ -111,6 +124,7 @@ struct TimerFeature {
                 guard state.remainingTime > 0 else { return .none }
                 state.isRunning = true
                 state.isShotClockTimerRunning = true
+                
                 return .merge(
                     startCountdown(),
                     startShotClockCountdown()
@@ -121,6 +135,7 @@ struct TimerFeature {
                     state.remainingTime -= 1
                 } else {
                     state.isRunning = false
+                    
                     return .concatenate(
                         .cancel(id: TimerID()),
                         .send(.playBuzzer)
@@ -136,11 +151,13 @@ struct TimerFeature {
                     state.shotClockTime = 24
                     
                     return .run { send in
+                        await send(.playBuzzer)
                         await send(.stopBothTimers)
                     }
                 }
                 
                 return .none
+                
             case .startTimer:
                 state.remainingTime = state.selectedMinutesPerQuater * 60
                 state.isRunning = true
@@ -163,51 +180,40 @@ struct TimerFeature {
                 
             case .breakTimeClockTick:
                 
-                return .run { send in
-                    await send(.stopBothTimers)
+                if state.breakTime > 0 {
+                    state.breakTime -= 1
+                } else {
+                    state.isbreakTime = false
+                    state.isRunning = false
+                    
+                    return .concatenate(
+                        .cancel(id: BreakTimerID()), // 타이머 정지
+                        .send(.playBuzzer)
+                    )
                 }
                 
-                
+                return .none
                 
             case .restartTimer:
-                          guard state.remainingTime > 0 else { return .none } // 남은 시간이 있을 때만 실행
-                          state.isRunning = true
+                guard state.remainingTime > 0 else { return .none } // 남은 시간이 있을 때만 실행
+                state.isRunning = true
                 state.isQuaterTimeRunning = true
                           return startCountdown()
 
             case .tick:
-                print("tick")
                 if state.remainingTime > 0 {
                     state.remainingTime -= 1
                     
                 } else {
                     state.isRunning = false
-                    return .concatenate(
-                        .cancel(id: TimerID()), // 타이머 정지
-                        .send(.playBuzzer) // 부저 소리 재생
-                    )
-                }
-                
-                return .none
-                
-            case .shotClockTick:
-                if state.shotClockTime > 0 {
-                    state.shotClockTime -= 1
-                    if state.shotClockTime == 0 {
-                        state.shotClockTime = 24
-                        return .run { send in
-                            await send(.stopTimer)
-                        }
-                    }
-                } else {
-                    state.isShotClockTimerRunning = false
+                    
                     return .concatenate(
                         .cancel(id: TimerID()),
                         .send(.playBuzzer)
                     )
                 }
-                return .none
                 
+                return .none
 
             case .stopTimer:
                 state.isRunning = false
@@ -264,9 +270,16 @@ struct TimerFeature {
                 }
                 
                 return .none
+                
+            case .forceStopBreakTimer:
+                state.isbreakTime = false
+                
+                return .cancel(id: BreakTimerID())
             }
         }
     }
+    
+    //MARK: - private Functios
     private func startCountdown() -> Effect<Action> {
         .run { send in
             for await _ in Timer.publish(every: 1, on: .main, in: .common).autoconnect().values {
@@ -288,7 +301,7 @@ struct TimerFeature {
     private func startBreakTimeCountDown() -> Effect<Action> {
         .run { send in
             for await _ in Timer.publish(every: 1, on: .main, in: .common).autoconnect().values {
-                await send(.shotClockTick)
+                await send(.breakTimeClockTick)
             }
         }
         .cancellable(id: BreakTimerID(), cancelInFlight: true)

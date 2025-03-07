@@ -10,10 +10,14 @@ import SwiftUI
 import ComposableArchitecture
 
 struct MenuView: View {
+    
+    //MARK: - Store
     let scenePhaseStore: StoreOf<ScenePhaseFeature>
     let counterStore: StoreOf<CounterFeature>
     let colorPickerStore: StoreOf<ColorPickerFeature>
     let timerStore: StoreOf<TimerFeature>
+    
+    //MARK: - Environments
     @Environment(\.presentationMode) var presentationMode
      
     var body: some View {
@@ -36,6 +40,8 @@ struct MenuView: View {
                         .frame(width: 300)
                     }
                 }
+                .frame(height: 150)
+                
                 HStack {
                     Text("쿼터 당 시간: \(timerStore.selectedMinutesPerQuater) 분")
                     Spacer()
@@ -53,6 +59,8 @@ struct MenuView: View {
                         .frame(width: 300)
                     }
                 }
+                .frame(height: 150)
+                
                 HStack {
                     Text("쿼터 간 쉬는 시간: \(timerStore.selectedMinutesPerRelax) 분")
                     Spacer()
@@ -70,6 +78,7 @@ struct MenuView: View {
                         .frame(width: 300)
                     }
                 }
+                .frame(height: 150)
                 
                 HStack {
                     Text("Home Team 색상 선택")
@@ -82,6 +91,7 @@ struct MenuView: View {
                         .frame(height: 100)
                     }
                 }
+                .frame(height: 150)
                 
                 HStack {
                     Text("Away Team 색상 선택")
@@ -94,6 +104,45 @@ struct MenuView: View {
                         .frame(height: 100)
                     }
                 }
+                .frame(height: 150)
+                
+                HStack {
+                    Text("Home Team 인원 설정: \(counterStore.selectedHomeTeampersonnel)명")
+                    Spacer()
+                    WithViewStore(counterStore, observe: { $0 }) { viewStore in
+                        Picker("", selection: viewStore.binding(
+                            get: { $0.selectedHomeTeampersonnel },
+                            send: { .setUpHomeTeampersonnel($0) }
+                        )) {
+                            ForEach(viewStore.homeTeampersonnel, id: \.self) { personnel in
+                                Text("\(personnel)명").tag(personnel)
+                            }
+                        }
+                        .pickerStyle(.wheel)
+                        .padding()
+                        .frame(width: 150)
+                    }
+                    .frame(height: 150)
+                }
+                
+                HStack {
+                    Text("Away Team 인원 설정: \(counterStore.selectedAwayTeampersonnel)명")
+                    Spacer()
+                    WithViewStore(counterStore, observe: { $0 }) { viewStore in
+                        Picker("", selection: viewStore.binding(
+                            get: { $0.selectedAwayTeampersonnel },
+                            send: { .setUpAwayTeampersonnel($0) }
+                        )) {
+                            ForEach(viewStore.awayTeampersonnel, id: \.self) { personnel in
+                                Text("\(personnel)명").tag(personnel)
+                            }
+                        }
+                        .pickerStyle(.wheel)
+                        .padding()
+                        .frame(width: 150)
+                    }
+                }
+                .frame(height: 150)
                 Spacer()
             }
             .navigationBarTitle("", displayMode: .inline)

@@ -10,12 +10,13 @@ import ComposableArchitecture
 import SwiftUI
 
 struct OverlayCounterView: View {
+    
+    //MARK: - Store
     let counterStore: StoreOf<CounterFeature>
     let colorPickerStore: StoreOf<ColorPickerFeature>
     let timerStore: StoreOf<TimerFeature>
     
     var body: some View {
-        
         VStack {
             Spacer()
             HStack {
@@ -128,22 +129,77 @@ struct OverlayCounterView: View {
                     }
                 }
                 Spacer()
+                
                 ZStack {
                    RoundedRectangle(cornerRadius: 6)
                        .fill(Color.gray.opacity(0.2))
-                       .frame(width: 160, height: 40)
+                       .frame(width: 80, height: 40)
 
-                   HStack(spacing: 20) {
-                       Button("14초") {
-                           timerStore.send(.startShotClock(14))
+                    HStack {
+                       Button {
+                           timerStore.send(.playBuzzer)
+                       } label: {
+                           Image(systemName: "speaker.wave.2")
+                               .foregroundStyle(.white)
                        }
-                       .foregroundColor(.white)
-                       Divider()
-                           .frame(height: 40)
-                       Button("reset") {
-                           timerStore.send(.startShotClock(24))
+                       .frame(width: 60, height: 40)
+
+                   }
+               }
+               .padding(.horizontal, 20)
+                
+                ZStack {
+                   RoundedRectangle(cornerRadius: 6)
+                       .fill(Color.gray.opacity(0.2))
+                       .frame(width: 80, height: 40)
+
+                    HStack {
+                        Button("14초") {
+                            timerStore.send(.startShotClock(14))
+                        }
+                        .frame(width: 60, height: 40)
+                        .foregroundColor(.white)
+                   }
+               }
+               .padding(.horizontal, 20)
+                
+                ZStack {
+                   RoundedRectangle(cornerRadius: 6)
+                       .fill(Color.gray.opacity(0.2))
+                       .frame(width: 80, height: 40)
+
+                    HStack {
+                        Button("reset") {
+                            timerStore.send(.startShotClock(24))
+                        }
+                        .frame(width: 60, height: 40)
+                        .foregroundColor(.green)
+                   }
+               }
+               .padding(.horizontal, 20)
+                
+                ZStack {
+                   RoundedRectangle(cornerRadius: 6)
+                       .fill(Color.gray.opacity(0.2))
+                       .frame(width: 80, height: 40)
+
+                    HStack {
+                       Button {
+                           if timerStore.isRunning {
+                               timerStore.send(.stopBothTimers)
+                           } else {
+                               if timerStore.remainingTime > 0 {
+                                   timerStore.send(.restartBothTimers)
+                               } else {
+                                   timerStore.send(.startBothTimers(false))
+                               }
+                           }
+                       } label: {
+                           Image(systemName: timerStore.isRunning ? "pause" : "play.fill")
+                               .foregroundStyle(.white)
                        }
-                       .foregroundColor(.green)
+                       .frame(width: 60, height: 40)
+
                    }
                }
                .padding(.horizontal, 20)

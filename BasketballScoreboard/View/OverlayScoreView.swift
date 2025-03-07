@@ -10,6 +10,8 @@ import SwiftUI
 import ComposableArchitecture
 
 struct OverlayScoreView: View {
+    
+    //MARK: - Store
     let colorPickerStore: StoreOf<ColorPickerFeature>
     let counterStore: StoreOf<CounterFeature>
     

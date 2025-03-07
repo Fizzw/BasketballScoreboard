@@ -10,13 +10,15 @@ import SwiftUI
 import ComposableArchitecture
 
 struct OverlayBottomView: View {
+    
+    //MARK: - Store
     let counterStore: StoreOf<CounterFeature>
     let timerStore: StoreOf<TimerFeature>
     let colorPickerStore: StoreOf<ColorPickerFeature>
+    
     var body: some View {
         HStack {
             Spacer()
-            
             VStack {
                 Text(String(format: "%02d", timerStore.shotClockTime))
                  .font(.custom("Seven Segment", size: 100))
@@ -24,21 +26,6 @@ struct OverlayBottomView: View {
                  .foregroundStyle(.red)
             }
             Spacer()
-            
-           
         }
-    }
-     
-     private func timeString(from seconds: Int) -> String {
-         let minutes = seconds / 60
-         let seconds = seconds % 60
-         return String(format: "%02d:%02d", minutes, seconds)
-     }
-    
-    private func hapticImpact() {
-        let style = UIImpactFeedbackGenerator.FeedbackStyle.heavy 
-        let generator = UIImpactFeedbackGenerator(style: style)
-        generator.prepare()
-        generator.impactOccurred()
     }
 }

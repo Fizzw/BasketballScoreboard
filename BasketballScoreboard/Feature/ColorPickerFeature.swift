@@ -11,20 +11,24 @@ import ComposableArchitecture
 
 @Reducer
 struct ColorPickerFeature {
+    
     @ObservableState
+    //MARK: - State
     struct State: Equatable {
         var homeTeamSelectedColor: Color = .red
         var awayTeamSelectedColor: Color = .red
     }
-
+    //MARK: - Action
     enum Action {
         case homeSelectColor(Color)
         case awaySelectColor(Color)
         case loadSavedColor
     }
 
+    //MARK: - Dependency
     @Dependency(\.userDefaultsClient) var userDefaultsClient
     
+    //MARK: - Reduce
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {

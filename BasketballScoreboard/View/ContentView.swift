@@ -10,6 +10,8 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ContentView: View {
+    
+    //MARK: - Store
     let timerStore: StoreOf<TimerFeature>
     let counterStore: StoreOf<CounterFeature>
     let scenePhaseStore: StoreOf<ScenePhaseFeature>
@@ -20,20 +22,34 @@ struct ContentView: View {
             ZStack {
                 Color.black
                     .edgesIgnoringSafeArea(.all)
-                OverlayScoreView(colorPickerStore: colorPickerStore, counterStore: counterStore)
                 VStack {
                     OverlayTopView(timerStore: timerStore, scenePhaseStore: scenePhaseStore, counterStore: counterStore, colorPickerStore: colorPickerStore)
                     Spacer()
-                    OverlayMiddleView(timerStore: timerStore, counterStore: counterStore)
-                    Spacer()
-                    ZStack {
-                        OverlayBottomView(counterStore: counterStore,timerStore: timerStore, colorPickerStore: colorPickerStore)
-                            .padding(.bottom, 20)
-                    }
-                    Spacer()
                 }
-                OverlayCounterView(counterStore: counterStore, colorPickerStore: colorPickerStore, timerStore: timerStore)
-
+                ZStack {
+                    if timerStore.isbreakTime {
+                        OverlayRestTimeView(timerStore: timerStore, counterStore: counterStore, colorPickerStore: Store(initialState: ColorPickerFeature.State(), reducer: {
+                            ColorPickerFeature()
+                        }))
+                            .onAppear {
+                                
+                            }
+                    } else {
+                        OverlayScoreView(colorPickerStore: colorPickerStore, counterStore: counterStore)
+                        VStack {
+                           
+                            Spacer()
+                            OverlayMiddleView(timerStore: timerStore, counterStore: counterStore)
+                            Spacer()
+                            ZStack {
+                                OverlayBottomView(counterStore: counterStore,timerStore: timerStore, colorPickerStore: colorPickerStore)
+                                    .padding(.bottom, 20)
+                            }
+                            Spacer()
+                        }
+                        OverlayCounterView(counterStore: counterStore, colorPickerStore: colorPickerStore, timerStore: timerStore)
+                    }
+                }
             }
             .persistentSystemOverlays(.hidden)
             .onAppear {
